@@ -1,2 +1,3 @@
-# reload
-Blender addon reloader (on source change)
+# Addon Dev Utils
+
+WIP blender dev utils, currently only supporting live reload.
