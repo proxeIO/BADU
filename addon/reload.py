@@ -49,13 +49,13 @@ def on_change():
         if not addon_utils.check(name)[0] and name not in addons:
             continue
 
+        new_module = False
         for root, dirs, files in os.walk(os.path.dirname(path)):
             for file in files:
                 if not file.endswith('.py'):
                     continue
 
                 _path = os.path.join(root, file)
-                new_module = False
 
                 if _path not in timestamps:
                     timestamps[_path] = os.path.getmtime(_path)
@@ -79,7 +79,7 @@ def on_change():
         return 1.0
 
     print(F'\nChanges detected in "{reload[0].__name__}", reloading...')
-    print(F'Changed module: {reload[1]}')
+    print(F'{"Changed" if not new_module else "New"} module: {reload[1]}')
     time_start = time.perf_counter()
 
     try:
