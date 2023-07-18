@@ -7,6 +7,8 @@ from . path import sep, scripts
 known_addons = []
 
 
+def reference(property_group, property, keyword='default'):
+    return property_group.__annotations__[property].keywords[keyword]
 
 
 def available_addons(self, context):
