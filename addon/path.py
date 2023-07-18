@@ -7,6 +7,7 @@ dirname = path.dirname
 basename = path.basename
 exists = path.exists
 join = path.join
+getmtime = path.getmtime
 
 scripts = join(bpy.utils.user_resource('SCRIPTS'), 'addons')
 
