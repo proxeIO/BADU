@@ -1,27 +1,10 @@
-# Symlinked, registration failures here will result in loss of live reload functionality.
-# This will require manually enabling the live reload addon in preferences once correct.
-'''
-Copyright (C) 2023 proxe All Rights Reserved
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
-
+# Symlinked, registration failures here will result in loss of live reload functionality
+# This may require manually enabling the live reload addon in preferences once corrected
 bl_info = {
     'name': 'Addon Dev Utils: Live Reload',
     'description': 'Live reload enabled addons when a source change is detected.',
     'author': 'proxe',
-    'version': (0, 1, '0'),
+    'version': (0, 0, '1'), # Independent addon version
     'blender': (2, 93),
     'location': 'System Console',
     'category': 'Development'}
