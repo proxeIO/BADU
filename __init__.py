@@ -67,6 +67,7 @@ from . import addon
 
 addon.name = bl_info['name']
 addon.path = addon.path.dirname(__file__) # if __file__.endswith('__init__.py') else __file__
+addon.package = __package__
 addon.version = F"{bl_info['version'][0]}.{bl_info['version'][1]}.{bl_info['version'][2]}"
 
 
