@@ -30,9 +30,9 @@ class packaging(PropertyGroup):
     # use version
     # insert license
       # all/init only
-      # full/snub
+      # full (from LICENSE) /snub (from addon's __init__)
     # debug blocks
-      # disable/remove (from commented debug to commented end or end of scope '\n')
+      # disable/remove (from commented debug to commented end or end of scope '\n' [tracking indentation])
     # remove comments
 
 
