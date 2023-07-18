@@ -1,12 +1,12 @@
 # Symlinked, registration failures here will result in loss of live reload functionality
 # This may require manually enabling the live reload addon in preferences once corrected
 bl_info = {
-    'name': 'Addon Dev Utils: Live Reload',
-    'description': 'Live reload enabled addons when a source change is detected.',
-    'author': 'proxe',
+    'name': "Addon Dev Utils: Live Reload",
+    'description': "Live reload enabled addons when a source change is detected.",
+    'author': "proxe",
     'version': (0, 0, '1'), # Independent addon version
     'blender': (2, 93),
-    'location': 'System Console',
+    'location': "System Console",
     'category': 'Development'}
 
 
@@ -50,7 +50,7 @@ def on_change():
                 timestamps[_path] = os.path.getmtime(_path)
 
                 separator = os.path.sep
-                module = F'{root}{separator}{file}'.split(name)[-1].replace(separator, '.')[1:-3].rstrip()
+                module = F"{root}{separator}{file}".split(name)[-1].replace(separator, '.')[1:-3].rstrip()
                 reload = (addon, module if module else '__main__')
 
         if name in addons:
@@ -61,8 +61,8 @@ def on_change():
     if not reload:
         return 1.0
 
-    print(F'\nChanges detected in "{reload[0].__name__}", reloading...')
-    print(F'{"Changed" if not new_module else "New"} module: {reload[1]}')
+    print(F"\nChanges detected in '{reload[0].__name__}', reloading...")
+    print(F"{'Changed' if not new_module else 'New'} module: {reload[1]}")
     time_start = time.perf_counter()
 
     try:
@@ -74,16 +74,16 @@ def on_change():
                 count += 1
                 del sys.modules[k]
 
-        print(F'Purged {count} addon modules')
+        print(F"Purged {count} addon modules")
 
         try:
             bpy.ops.preferences.addon_enable(module=reload[0].__name__)
-            print(F'Reload successfull ({time.perf_counter() - time_start:.2f} seconds)')
+            print(F"Reload successfull ({time.perf_counter() - time_start:.2f} seconds)")
         except:
-            print(F'\nFailed to enable {reload[0].__name__} (still monitoring)')
+            print(F"\nFailed to enable {reload[0].__name__} (still monitoring)")
 
     except:
-        print(F'\nFailed to reload {reload[0].__name__} (still monitoring)')
+        print(F"\nFailed to reload {reload[0].__name__} (still monitoring)")
 
     print()
 
