@@ -66,8 +66,13 @@ def on_change():
     if not reload:
         return 1.0
 
-    print(F"\nChanges detected in '{reload[0].__name__}', reloading...")
-    print(F"{'Changed' if not new_module else 'New'} module: {reload[1]}")
+    import importlib
+
+    init = importlib.import_module(reload[0].__name__)
+    name = init.bl_info['name']
+
+    print(F"\nChanges detected in '{name}', reloading...")
+    print(F"  {'Changed' if not new_module else 'New'} module: {reload[1]}")
     time_start = time.perf_counter()
 
     try:
@@ -79,7 +84,7 @@ def on_change():
                 count += 1
                 del sys.modules[k]
 
-        print(F"Purged {count} addon modules")
+        print(F"  Purged {count} addon modules")
 
         try:
             bpy.ops.preferences.addon_enable(module=reload[0].__name__)
