@@ -15,10 +15,8 @@ class ADU_OT_create_zip(Operator):
         if not context:
             return False
 
-        packaging = context.window_manager.adu.packaging
-        default = packaging.__annotations__['source'].keywords['default']
-        source = packaging.source
-        return source not in {'', default} #TODO: use validate
+        pkg = context.window_manager.adu.packaging
+        return pkg.source not in {'', pkg.__annotations__['source'].keywords['default']} #TODO: use path.validate
 
 
     def execute(self, context):
