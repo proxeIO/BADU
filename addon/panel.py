@@ -10,18 +10,22 @@ class ADU_PT_tools(Panel):
 
 
     def draw(self, context):
-        wm = context.window_manager
-        packaging = wm.adu.packaging
+        from .. addon import preferences
+        pref = preferences()
+        pkg = pref.packaging
         layout = self.layout
+
+        if pkg.addon == 'NONE':
+            layout.label(text='No addons available')
+            return
 
         column = layout.column(align=True)
 
-        #TODO: list of recently changed addons (populates packaging.source on active index change)
+        #TODO: list of recently changed addons (populates packaging.addon on active index change)
 
+        column.prop(pkg, 'addon', text='')
+        column.prop(pkg, 'destination', text='')
         column.operator('adu.create_zip')
-
-        column.prop(packaging, 'source', text='')
-        column.prop(packaging, 'destination', text='')
 
 
 class ADU_PT_reload(Panel):
