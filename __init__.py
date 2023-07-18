@@ -19,7 +19,7 @@ bl_info = {
     'name': 'Addon Dev Utils',
     'description': 'Blender addon development utils',
     'author': 'proxe',
-    'version': (0, 1, '0'),
+    'version': (0, 0, '2'),
     'blender': (2, 93),
     'location': 'Text Editor \u2794 Sidebar (CTRL + T) \u2794 Dev \u2794 Addon',
     'category': 'Development'}
