@@ -21,7 +21,7 @@ bl_info = {
     'author': 'proxe',
     'version': (0, 1, '0'),
     'blender': (2, 93),
-    'location': 'Text Editor \u2794 Sidebar \u2794 Development',
+    'location': 'Text Editor \u2794 Sidebar (CTRL + T) \u2794 Dev \u2794 Addon',
     'category': 'Development'}
 
 
