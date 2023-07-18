@@ -5,12 +5,7 @@ from bpy.utils import register_class, unregister_class
 from . path import sep
 
 
-class preference(AddonPreferences):
-    bl_idname = __package__.split('.')[0]
 
-    # format_console
-    # reload modules
-    # reload bl_ui
 
 
 class packaging(PropertyGroup):
@@ -36,17 +31,34 @@ class packaging(PropertyGroup):
     # remove comments
 
 
-class property(PropertyGroup):
+class preference(AddonPreferences):
+    bl_idname = __package__.split('.')[0]
+
     packaging: PointerProperty(
         type = packaging,
         name = "Packaging",
         description = "Packaging properties")
 
+    # format_console
+    # reload modules
+    # reload bl_ui
+
+
+    def draw(self, context):
+        layout = self.layout
+
+        layout.prop(self.packaging, 'addon')
+        layout.prop(self.packaging, 'destination')
+
+
+class property(PropertyGroup):
+    ...
+
 
 classes = (
-    preference,
     packaging,
-    property,
+    preference,
+    # property,
 )
 
 
@@ -54,12 +66,12 @@ def register():
     for cls in classes:
         register_class(cls)
 
-    WindowManager.adu = PointerProperty(type=property)
+    # WindowManager.adu = PointerProperty(type=property)
 
 
 def unregister():
     for cls in reversed(classes):
         unregister_class(cls)
 
-    del WindowManager.adu
+    # del WindowManager.adu
 
