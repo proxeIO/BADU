@@ -22,8 +22,9 @@ class packaging(PropertyGroup):
     destination: StringProperty( #TODO: validate
         name = "Destination Path",
         description = "Path to the destination directory",
+        options = {'OUTPUT_PATH'},
         subtype = 'DIR_PATH',
-        default = F'zip{sep}save{sep}path')
+        default = F'zip{sep}save{sep}dir')
 
     # remove copy
     # use version
