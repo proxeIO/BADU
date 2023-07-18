@@ -48,7 +48,7 @@ def check_live_reload():
 
     # Live reload as a separate addon to accommodate editing this addon without breaking live reload
     if not path.exists(path.join(scripts, filename)):
-        print(F"{filename} not found, creating symlink")
+        print(F"  {filename} not found, creating symlink")
         src = path.join(path.dirname(__file__), 'addon', 'reload.py')
         dst = path.join(scripts, filename)
 
@@ -57,7 +57,8 @@ def check_live_reload():
         bpy.app.timers.register(enable_live_reload, first_interval=1.0)
 
     else:
-        print(F'{bl_info["name"]}: Live Reload found')
+        print(F'  Live Reload found')
+
 
 check_live_reload() # Check for live reload before registering this addon
 del check_live_reload # Removing function from namespace
