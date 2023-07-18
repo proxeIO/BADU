@@ -7,6 +7,15 @@ modules = [
 ]
 
 
+def preferences(name=''):
+    import bpy
+
+    if not name:
+        from .. addon import package as name
+
+    return bpy.context.preferences.addons[name].preferences
+
+
 def register():
     for mdl in modules:
         mdl.register()
