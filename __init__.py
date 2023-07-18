@@ -33,7 +33,7 @@ def enable_live_reload(): # Enable live reload addon after startup
     import bpy
 
     if not bpy.context:
-        return 1.0
+        return 1.0 # Keep timer
 
     print(F'{bl_info["name"]}: Enabling Live Reload')
     bpy.ops.preferences.addon_enable(module='Live Reload')
