@@ -28,6 +28,9 @@ def on_change():
     reload = ()
 
     for addon in addon_utils.modules():
+        if not addon.__file__.startswith(scripts):
+            continue
+
         path = addon.__file__
         name = addon.__name__
 
