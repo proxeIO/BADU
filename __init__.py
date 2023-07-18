@@ -36,7 +36,7 @@ def check_live_reload():
         if not bpy.context:
             return 1.0 # Keep timer
 
-        print(F"{bl_info['name']}: Enabling Live Reload")
+        print("  Enabling Live Reload")
         bpy.ops.preferences.addon_enable(module=filename[:-3])
         bpy.ops.wm.save_userpref() # Save preferences to enable live reload on startup
 
@@ -48,7 +48,7 @@ def check_live_reload():
 
     # Live reload as a separate addon to accommodate editing this addon without breaking live reload
     if not path.exists(path.join(scripts, filename)):
-        print(F"  {filename} not found, creating symlink")
+        print("  Live Reload not found, creating symlink")
         src = path.join(path.dirname(__file__), 'addon', 'reload.py')
         dst = path.join(scripts, filename)
 
@@ -57,7 +57,7 @@ def check_live_reload():
         bpy.app.timers.register(enable_live_reload, first_interval=1.0)
 
     else:
-        print(F'  Live Reload found')
+        print("  Live Reload found")
 
 
 check_live_reload() # Check for live reload before registering this addon
