@@ -23,20 +23,20 @@ class ADU_OT_create_zip(Operator):
 
 
     @staticmethod
-    def get_name(src):
+    def get_name(mdl):
         import importlib
 
-        init = importlib.import_module(F'{src}')
+        init = importlib.import_module(mdl)
         name = str(init.bl_info['name'])
 
         return name
 
 
     @staticmethod
-    def get_version(src):
+    def get_version(mdl):
         import importlib
 
-        init = importlib.import_module(F'{src}')
+        init = importlib.import_module(mdl)
         version = str(init.bl_info['version']) \
           .replace(',', '.')                   \
           .replace(' ', '')                    \
