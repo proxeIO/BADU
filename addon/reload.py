@@ -21,6 +21,8 @@ import addon_utils
 timestamps = {}
 addons = []
 
+scripts = os.path.join(bpy.utils.user_resource('SCRIPTS'), 'addons')
+
 
 def on_change():
     reload = ()
