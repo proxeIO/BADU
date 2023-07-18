@@ -2,7 +2,7 @@ from bpy.types import AddonPreferences, PropertyGroup, WindowManager
 from bpy.props import PointerProperty, EnumProperty, StringProperty
 from bpy.utils import register_class, unregister_class
 
-from . path import sep
+from . path import sep, scripts
 
 
 
