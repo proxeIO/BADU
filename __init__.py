@@ -24,39 +24,45 @@ bl_info = {
     'location': 'Text Editor \u2794 Sidebar \u2794 Development',
     'category': 'Development'}
 
-# Ensure live reload is available before anything else
-import bpy
-from os import path, symlink
 
-
-def enable_live_reload(): # Enable live reload addon after startup
+def check_live_reload():
     import bpy
+    # from os import path, symlink
+    from . addon.path import path, symlink
 
-    if not bpy.context:
-        return 1.0 # Keep timer
+    filename = F'{bl_info["name"]}: Live Reload.py'
 
-    print(F'{bl_info["name"]}: Enabling Live Reload')
-    bpy.ops.preferences.addon_enable(module='Live Reload')
+    def enable_live_reload(): # Enable live reload addon after startup
+        if not bpy.context:
+            return 1.0 # Keep timer
 
-    return # Remove timer
+        print(F'{bl_info["name"]}: Enabling Live Reload')
+        bpy.ops.preferences.addon_enable(module=filename[:-3])
+        bpy.ops.wm.save_userpref() # Save preferences to enable live reload on startup
+
+        return # Remove timer
 
 
-print(F'{bl_info["name"]}: Checking for Live Reload')
-scripts = path.join(bpy.utils.user_resource('SCRIPTS'), 'addons')
+    print(F'{bl_info["name"]}: Checking for Live Reload')
+    scripts = path.join(bpy.utils.user_resource('SCRIPTS'), 'addons')
 
-# Live reload as a separate addon to accommodate editing this addon without breaking live reload
-if not path.exists(path.join(scripts, 'Live Reload.py')):
-    print(F'{bl_info["name"]}: Live reload not found, creating symlink')
-    src = path.join(path.dirname(__file__), 'addon', 'reload.py')
-    dst = path.join(scripts, 'Live Reload.py')
+    # Live reload as a separate addon to accommodate editing this addon without breaking live reload
+    if not path.exists(path.join(scripts, filename)):
+        print(F'{filename} not found, creating symlink')
+        src = path.join(path.dirname(__file__), 'addon', 'reload.py')
+        dst = path.join(scripts, filename)
 
-    symlink(src, dst) # Use symlink so we can keep working from src file (addon/reload.py)
+        symlink(src, dst) # Use symlink so we can keep working from src file (addon/reload.py)
 
-    bpy.app.timers.register(enable_live_reload, first_interval=1.0)
+        bpy.app.timers.register(enable_live_reload, first_interval=1.0)
 
-else:
-    print(F'{bl_info["name"]}: Live Reload found')
+    else:
+        print(F'{bl_info["name"]}: Live Reload found')
 
+check_live_reload() # Check for live reload before registering this addon
+del check_live_reload # Removing function from namespace
+
+# Now we can register this addon
 from . import addon
 
 
