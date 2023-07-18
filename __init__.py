@@ -29,7 +29,7 @@ import bpy
 from os import path, symlink
 
 
-def enable_live_reload(): # Enable live reload after startup
+def enable_live_reload(): # Enable live reload addon after startup
     import bpy
 
     if not bpy.context:
