@@ -12,6 +12,6 @@ def register():
 
 
 def unregister():
-    for mdl in modules:
+    for mdl in reversed(modules):
         mdl.unregister()
 
