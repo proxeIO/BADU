@@ -4,8 +4,30 @@ from bpy.utils import register_class, unregister_class
 
 from . path import sep, scripts
 
+known_addons = []
 
 
+
+
+def available_addons(self, context):
+    if known_addons:
+        return known_addons
+
+    import addon_utils
+    import importlib
+
+    from .. addon import name, package
+
+    for m in addon_utils.modules():
+        if not addon_utils.check(m.__name__)[0] or not m.__file__.startswith(scripts) or name in m.__name__ or package == m.__name__:
+            continue
+
+        init = importlib.import_module(m.__name__)
+        _name = str(init.bl_info['name'])
+
+        known_addons.append((m.__name__, _name, ""))
+
+    return known_addons if known_addons else [('NONE', '', "")]
 
 
 class packaging(PropertyGroup):
