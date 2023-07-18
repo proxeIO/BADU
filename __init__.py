@@ -21,7 +21,7 @@ bl_info = {
     'author': 'proxe',
     'version': (0, 1, '0'),
     'blender': (2, 93),
-    'location': 'System Console',
+    'location': 'Text Editor \u2794 Sidebar \u2794 Development',
     'category': 'Development'}
 
 from . import addon
