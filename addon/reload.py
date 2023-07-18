@@ -97,10 +97,10 @@ def on_change():
             bpy.ops.preferences.addon_enable(module=reload[0].__name__)
             print(F'Reload successfull ({time.perf_counter() - time_start:.2f} seconds)')
         except:
-            print(F'\nFailed to enable {reload[0].__name__}')
+            print(F'\nFailed to enable {reload[0].__name__} (still monitoring)')
 
     except:
-        print(F'\nFailed to reload {reload[0].__name__}')
+        print(F'\nFailed to reload {reload[0].__name__} (still monitoring)')
 
     print()
 
