@@ -1,5 +1,5 @@
 from bpy.types import AddonPreferences, PropertyGroup, WindowManager
-from bpy.props import PointerProperty, StringProperty
+from bpy.props import PointerProperty, EnumProperty, StringProperty
 from bpy.utils import register_class, unregister_class
 
 from . path import sep
@@ -14,11 +14,10 @@ class preference(AddonPreferences):
 
 
 class packaging(PropertyGroup):
-    source: StringProperty( #TODO: validate
-        name = "Source Path",
-        description = "Path to the source directory",
-        subtype = 'DIR_PATH',
-        default = F'addon{sep}path')
+    addon: EnumProperty(
+        name = "Addon to Package",
+        description = "The addon to package",
+        items = available_addons)
 
     destination: StringProperty( #TODO: validate
         name = "Destination Path",
