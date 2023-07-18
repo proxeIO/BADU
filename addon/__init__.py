@@ -1,8 +1,9 @@
-from . import property, operator
+from . import property, operator, panel
 
 modules = [
     property,
     operator,
+    panel,
 ]
 
 
