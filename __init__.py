@@ -24,10 +24,12 @@ bl_info = {
     'location': 'Text Editor \u2794 Sidebar \u2794 Development',
     'category': 'Development'}
 
-from . import addon
+# Ensure live reload is available before anything else
+import bpy
+from os import path, symlink
 
 
-def enable_live_reload():
+def enable_live_reload(): # Enable live reload after startup
     import bpy
 
     if not bpy.context:
@@ -36,29 +38,29 @@ def enable_live_reload():
     print(F'{bl_info["name"]}: Enabling Live Reload')
     bpy.ops.preferences.addon_enable(module='Live Reload')
 
-    return
+    return # Remove timer
+
+
+print(F'{bl_info["name"]}: Checking for Live Reload')
+scripts = path.join(bpy.utils.user_resource('SCRIPTS'), 'addons')
+
+# Live reload as a separate addon to accommodate editing this addon without breaking live reload
+if not path.exists(path.join(scripts, 'Live Reload.py')):
+    print(F'{bl_info["name"]}: Live reload not found, creating symlink')
+    src = path.join(path.dirname(__file__), 'addon', 'reload.py')
+    dst = path.join(scripts, 'Live Reload.py')
+
+    symlink(src, dst) # Use symlink so we can keep working from src file (addon/reload.py)
+
+    bpy.app.timers.register(enable_live_reload, first_interval=1.0)
+
+else:
+    print(F'{bl_info["name"]}: Live Reload found')
+
+from . import addon
 
 
 def register():
-    import bpy
-    from os import path, symlink
-
-    print(F'{bl_info["name"]}: Checking for Live Reload')
-    scripts = path.join(bpy.utils.user_resource('SCRIPTS'), 'addons')
-
-    # Live reload as a separate addon to accommodate editing this addon without breaking live reload
-    if not path.exists(path.join(scripts, 'Live Reload.py')):
-        print(F'{bl_info["name"]}: Live reload not found, creating symlink')
-        src = path.join(path.dirname(__file__), 'addon', 'reload.py')
-        dst = path.join(scripts, 'Live Reload.py')
-
-        symlink(src, dst) # Use symlink so we can keep working from src file (addon/reload.py)
-
-        bpy.app.timers.register(enable_live_reload, first_interval=1.0)
-
-    else:
-        print(F'{bl_info["name"]}: Live Reload found')
-
     addon.register()
 
 
