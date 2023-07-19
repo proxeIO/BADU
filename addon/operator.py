@@ -124,15 +124,12 @@ class ADU_OT_create_zip(Operator):
     def compress(src, dst):
         from os import remove
         from shutil import make_archive
-        from . path import scripts, sep
+        from . path import scripts, sep, isfile
 
         truncated = F"..{sep}addon{sep}scripts"
         print(F"  Archiving\n    Path: {src.replace(scripts, truncated)}\n    In:   {dst.replace(scripts, truncated)}")
 
-        # def compress_directory(dir_path, archive_name=None):
-        #     dir_path = Path(dir_path)
-        #     archive_name = archive_name or dir_path.parent / f"{dir_path.name}_archive"
-        #     shutil.make_archive(archive_name, 'zip', dir_path)
+        make_archive(dst, 'zip', src)
 
 
     def execute(self, context):
@@ -144,7 +141,7 @@ class ADU_OT_create_zip(Operator):
         from shutil import rmtree
 
         from .. addon import name, preferences
-        from . path import abspath, join, dirname, scripts, sep
+        from . path import abspath, join, dirname, scripts, sep, isfile
 
         pref = preferences()
         pkg = pref.packaging
@@ -178,12 +175,16 @@ class ADU_OT_create_zip(Operator):
 
             break
 
-        self.copy(src, dst)
-
-        zip = F"{_name}-{version}.zip"
+        zip = F"{_name}-{version}"
         output = join(_path if pkg.destination in {'', property.reference(pkg, 'destination')} else pkg.destination, zip)
 
-        self.compress(dst, output)
+        if isfile(output + '.zip'):
+            self.report({'ERROR'}, F"Bump {_name} version OR delete existing ZIP archive:\n  {output}.zip")
+
+            return {'CANCELLED'}
+
+        self.copy(src, dst)
+        self.compress(abspath(join(dst, '..')), output)
 
         rmtree(abspath(join(dst, '..')))
 
