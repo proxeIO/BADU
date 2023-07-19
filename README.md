@@ -1,8 +1,8 @@
-# Addon Dev Utils
+# Blender Addon Dev Utils
 
-WIP blender addon dev utils (in addon form)
+Blender addon development utils (in addon form) (WIP)
 
-## Utils
+### Utils
 
 - Live Reload (Addons in userspace)
 - Create Zip
