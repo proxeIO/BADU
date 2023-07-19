@@ -19,9 +19,15 @@ class BADU_PT_tools(Panel):
             layout.label(text='No addons available')
             return
 
+
         column = layout.column(align=True)
 
         #TODO: list of recently changed addons (populates packaging.addon on active index change)
+        box = column.box()
+        box.scale_y = 0.5
+        row = box.row(align=True)
+        row.alignment = 'CENTER'
+        row.label(text='Package Addon')
 
         column.prop(pkg, 'addon', text='')
         column.prop(pkg, 'destination', text='')
