@@ -3,7 +3,6 @@ from bpy.utils import register_class, unregister_class
 
 from . import property
 
-# symlink
 
 class ADU_OT_create_zip(Operator):
     bl_idname = 'adu.create_zip'
@@ -50,38 +49,89 @@ class ADU_OT_create_zip(Operator):
 
     @staticmethod
     def copy(src, dst):
-        from .. addon import name
-        from . path import scripts, sep
+        from shutil import rmtree, copy2
+        from os import readlink, remove, walk, makedirs
+
+        from . path import scripts, sep, isdir, isfile, islink
 
         truncated = F"..{sep}addon{sep}scripts"
-        print(F"  Copying\n    From: {src.replace(scripts, truncated)}\n    To:   {dst.replace(scripts, truncated)}")
+        print(F"  Copying\n    From: {src.replace(scripts, truncated)}\n    To:   {dst.replace(scripts, truncated)}\n")
+
+        if islink(src):
+            print("    SymLink detected, resolving...")
+            src = readlink(src)
+
+        if isdir(dst):
+            print("    Destination directory exists, deleting...")
+            rmtree(dst)
+
+        elif isfile(dst):
+            print("    Destination file exists, deleting...")
+            remove(dst)
+
+        files = []
+        for root, dirs, _files in walk(src):
+            basedir = root.replace(F"{src}{sep}", '')
+
+            if basedir.startswith('.') or basedir.endswith('__'):
+                print(F"    Ignoring {basedir}")
+
+                continue
+
+            _dirs = [d for d in dirs if not d.startswith('.') and not d.startswith('__')]
+
+            for dir in dirs:
+                if dir not in _dirs:
+                    print(F"    Ignoring {basedir}{sep}{dir}")
+
+            __files = [f for f in _files if not f.endswith('.pyc') and not f.startswith('.')]
+
+            for file in _files:
+                if file not in __files:
+                    print(F"    Ignoring {basedir}{sep}{file}")
+
+            files.append((root, _dirs, __files))
+
+        print()
+
+        for root, dirs, _files in files:
+            print(F"    Copying {root.replace(F'{src}{sep}', '')}")
+
+            for dir in dirs:
+                print(F"      Creating directory {dir}")
+
+                _path = F"{root}{sep}{dir}"
+
+                if islink(_path):
+                    print(F"      SymLink detected, resolving...")
+                    _path = readlink(_path)
+
+                makedirs(_path.replace(src, dst))
+
+            for file in _files:
+                print(F"      Copying file {file}")
+
+                _path = F"{root}{sep}{file}"
+
+                if islink(_path):
+                    print(F"      SymLink detected, resolving...")
+                    _path = readlink(_path)
+
+                copy2(_path, _path.replace(src, dst))
 
 
     @staticmethod
-    def clean(dir):
-        from .. addon import name
+    def compress(src, dst):
+        from shutil import make_archive
         from . path import scripts, sep
 
         truncated = F"..{sep}addon{sep}scripts"
-        print(F"  Cleaning\n    Path: {dir.replace(scripts, truncated)}")
+        print(F"  Archiving\n    Path: {src.replace(scripts, truncated)}\n    In:   {dst.replace(scripts, truncated)}")
 
-
-    @staticmethod
-    def insert(dir):
-        from .. addon import name
-        from . path import scripts, sep
-
-        truncated = F"..{sep}addon{sep}scripts"
-        print(F"  Inserting info\n    Path: {dir.replace(scripts, truncated)}")
-
-
-    @staticmethod
-    def compress(dir, dst):
-        from .. addon import name
-        from . path import scripts, sep
-
-        truncated = F"..{sep}addon{sep}scripts"
-        print(F"  Archiving\n    Path: {dir.replace(scripts, truncated)}\n    In:   {dst.replace(scripts, truncated)}")
+        # def compress_directory(dir_path, archive_name=None):
+        #     dir_path = Path(dir_path)
+        #     archive_name = archive_name or dir_path.parent / f"{dir_path.name}_archive"
+        #     shutil.make_archive(archive_name, 'zip', dir_path)
 
 
     def execute(self, context):
@@ -126,11 +176,10 @@ class ADU_OT_create_zip(Operator):
             break
 
         self.copy(src, dst)
-        self.clean(dst)
-        # self.insert(dst)
 
         zip = F"{_name}-{version}.zip"
         output = join(_path if pkg.destination in {'', property.reference(pkg, 'destination')} else pkg.destination, zip)
+
         self.compress(dst, output)
 
         #TODO: remove dst dir
