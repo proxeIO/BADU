@@ -23,7 +23,7 @@ class ADU_OT_create_zip(Operator):
 
 
     @staticmethod
-    def get_name(mdl):
+    def addon_name(mdl):
         import importlib
 
         init = importlib.import_module(mdl)
@@ -33,7 +33,7 @@ class ADU_OT_create_zip(Operator):
 
 
     @staticmethod
-    def get_version(mdl):
+    def addon_version(mdl):
         import importlib
 
         init = importlib.import_module(mdl)
@@ -98,8 +98,8 @@ class ADU_OT_create_zip(Operator):
         src = pkg.addon
         dst = pkg.destination
 
-        _name = self.get_name(src)
-        version = self.get_version(src)
+        _name = self.addon_name(src)
+        version = self.addon_version(src)
 
         module = False
         _path = ''
