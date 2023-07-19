@@ -4,7 +4,7 @@ bl_info = {
     'name': "Addon Dev Utils: Live Reload",
     'description': "Live reload enabled addons when a source change is detected.",
     'author': "proxe",
-    'version': (0, 0, '1'), # Independent ADU version
+    'version': (0, 0, '1'), # Independent BADU version
     'blender': (2, 93),
     'location': "System Console",
     'category': 'Development'}

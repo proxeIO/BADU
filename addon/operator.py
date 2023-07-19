@@ -4,9 +4,9 @@ from bpy.utils import register_class, unregister_class
 from . import property
 
 
-class ADU_OT_create_zip(Operator):
-    bl_idname = 'adu.create_zip'
-    bl_label = "Package Addon"
+class BADU_OT_create_zip(Operator):
+    bl_idname = 'badu.create_zip'
+    bl_label = "Create '.zip'"
     bl_description = "Create a zip archive of given addon"
     bl_options = {'REGISTER', 'UNDO'}
 
@@ -200,7 +200,7 @@ class ADU_OT_create_zip(Operator):
 
 
 classes = (
-    ADU_OT_create_zip,
+    BADU_OT_create_zip,
 )
 
 

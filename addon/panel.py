@@ -2,7 +2,7 @@ from bpy.types import Panel
 from bpy.utils import register_class, unregister_class
 
 
-class ADU_PT_tools(Panel):
+class BADU_PT_tools(Panel):
     bl_label = "Addon"
     bl_space_type = 'TEXT_EDITOR'
     bl_region_type = 'UI'
@@ -25,10 +25,10 @@ class ADU_PT_tools(Panel):
 
         column.prop(pkg, 'addon', text='')
         column.prop(pkg, 'destination', text='')
-        column.operator('adu.create_zip')
+        column.operator('badu.create_zip')
 
 
-class ADU_PT_reload(Panel):
+class BADU_PT_reload(Panel):
     bl_label = "Reload"
     bl_space_type = 'TEXT_EDITOR'
     bl_region_type = 'UI'
@@ -44,7 +44,7 @@ class ADU_PT_reload(Panel):
         layout.label(text='here')
 
 
-class ADU_PT_packaging(Panel):
+class BADU_PT_packaging(Panel):
     bl_label = "Packaging"
     bl_space_type = 'TEXT_EDITOR'
     bl_region_type = 'UI'
@@ -61,9 +61,9 @@ class ADU_PT_packaging(Panel):
 
 
 classes = (
-    ADU_PT_tools,
-    # ADU_PT_reload,
-    # ADU_PT_packaging,
+    BADU_PT_tools,
+    # BADU_PT_reload,
+    # BADU_PT_packaging,
 )
 
 

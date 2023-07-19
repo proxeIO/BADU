@@ -90,12 +90,12 @@ def register():
     for cls in classes:
         register_class(cls)
 
-    # WindowManager.adu = PointerProperty(type=property)
+    # WindowManager.badu = PointerProperty(type=property)
 
 
 def unregister():
     for cls in reversed(classes):
         unregister_class(cls)
 
-    # del WindowManager.adu
+    # del WindowManager.badu
 
