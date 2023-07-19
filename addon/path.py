@@ -9,6 +9,7 @@ exists = path.exists
 join = path.join
 getmtime = path.getmtime
 islink = path.islink
+isfile = path.isfile
 
 scripts = join(bpy.utils.user_resource('SCRIPTS'), 'addons')
 
