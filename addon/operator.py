@@ -122,6 +122,7 @@ class ADU_OT_create_zip(Operator):
 
     @staticmethod
     def compress(src, dst):
+        from os import remove
         from shutil import make_archive
         from . path import scripts, sep
 
@@ -139,6 +140,8 @@ class ADU_OT_create_zip(Operator):
         time_start = time.perf_counter()
 
         import addon_utils
+
+        from shutil import rmtree
 
         from .. addon import name, preferences
         from . path import abspath, join, dirname, scripts, sep
@@ -165,11 +168,11 @@ class ADU_OT_create_zip(Operator):
             print(F"{name}: Packaging Addon\n  Found '{_name}'\n    Path: {_path.replace(scripts, truncated)}")
 
             if dst in {'', property.reference(pkg, 'destination')}:
-                dst = join(_path, src)
+                dst = join(_path, src, src)
                 print(F"  No destination path specified, using addon directory...")
 
             else:
-                dst = join(dst, src)
+                dst = join(dst, src, src)
 
             src = _path
 
@@ -182,7 +185,7 @@ class ADU_OT_create_zip(Operator):
 
         self.compress(dst, output)
 
-        #TODO: remove dst dir
+        rmtree(abspath(join(dst, '..')))
 
         print(F"Packaged successfully ({time.perf_counter() - time_start:.2f} seconds)\n")
 
