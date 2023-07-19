@@ -141,7 +141,7 @@ class ADU_OT_create_zip(Operator):
         from shutil import rmtree
 
         from .. addon import name, preferences
-        from . path import abspath, join, dirname, scripts, sep, isfile
+        from . path import abspath, join, dirname, scripts, sep, isfile, isdir
 
         pref = preferences()
         pkg = pref.packaging
