@@ -186,7 +186,11 @@ class ADU_OT_create_zip(Operator):
         self.copy(src, dst)
         self.compress(abspath(join(dst, '..')), output)
 
-        rmtree(abspath(join(dst, '..')))
+        cpy = abspath(join(dst, '..'))
+        if isdir(cpy):
+            rmtree(abspath(join(dst, '..')))
+        else:
+            remove(cpy)
 
         print(F"Packaged successfully ({time.perf_counter() - time_start:.2f} seconds)\n")
 
