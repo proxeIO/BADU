@@ -1,6 +1,6 @@
 # Addon Dev Utils
 
-WIP blender addon dev utils
+WIP blender addon dev utils (in addon form)
 
 ## Utils
 
