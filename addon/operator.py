@@ -11,16 +11,6 @@ class BADU_OT_create_zip(Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
 
-    # @classmethod
-    # def poll(cls, context):
-    #     if not context:
-    #         return False
-
-    #     from .. addon import preferences
-    #     pkg = preferences().packaging
-    #     return pkg.addon not in {'', property.reference(pkg, 'addon')} #TODO: use path.validate
-
-
     @staticmethod
     def addon_name(mdl):
         import importlib
