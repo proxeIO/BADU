@@ -46,7 +46,7 @@ class packaging(PropertyGroup):
         description = "Path to the destination directory",
         options = {'OUTPUT_PATH'},
         subtype = 'DIR_PATH',
-        default = F'zip{sep}save{sep}dir')
+        default = F'zip{sep}save{sep}directory')
 
     # remove copy
     # use version
