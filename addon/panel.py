@@ -25,8 +25,11 @@ class BADU_PT_tools(Panel):
         row.label(text='Package Addon')
 
         column.prop(pkg, 'addon', text='')
-        column.prop(pkg, 'destination', text='')
-        column.operator('badu.create_zip')
+
+        sub = column.column(align=True)
+        sub.enabled = pkg.addon != 'NONE'
+        sub.prop(pkg, 'destination', text='')
+        sub.operator('badu.create_zip')
 
 
 class BADU_PT_reload(Panel):
