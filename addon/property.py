@@ -29,6 +29,9 @@ def available_addons(self, context):
 
         known_addons.append((m.__name__, _name, ""))
 
+    if known_addons:
+        known_addons.insert(0, ('NONE', 'Choose...', ""))
+
     return known_addons if known_addons else [('NONE', '', "")]
 
 

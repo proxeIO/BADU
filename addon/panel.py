@@ -15,11 +15,6 @@ class BADU_PT_tools(Panel):
         pkg = pref.packaging
         layout = self.layout
 
-        if pkg.addon == 'NONE':
-            layout.label(text='No addons available')
-            return
-
-
         column = layout.column(align=True)
 
         #TODO: list of recently changed addons (populates packaging.addon on active index change)
