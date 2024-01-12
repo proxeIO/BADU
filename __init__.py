@@ -30,7 +30,7 @@ def check_live_reload():
     # from os import path, symlink
     from . addon.path import path, symlink
 
-    filename = F"{bl_info['name']}: Live Reload.py"
+    filename = F"{bl_info['name']} Live Reload.py"
 
     def enable_live_reload(): # Enable live reload addon after startup
         if not bpy.context:
@@ -78,4 +78,3 @@ def register():
 
 def unregister():
     addon.unregister()
-
