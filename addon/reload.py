@@ -27,41 +27,47 @@ scripts = os.path.join(bpy.utils.user_resource('SCRIPTS'), 'addons')
 def on_change():
     reload = ()
 
-    for addon in addon_utils.modules():
-        if not addon.__file__.startswith(scripts):
-            continue
+    if not addons:
+        for addon in addon_utils.modules():
+            if not addon.__file__.startswith(scripts):
+                continue
 
+            # path = addon.__file__
+            name = addon.__name__
+
+            if not addon_utils.check(name)[0] and addon not in addons:
+                continue
+
+            if addon in addons:
+                continue
+
+            addons.append(addon)
+
+    for addon in addons:
         path = addon.__file__
         name = addon.__name__
 
-        if not addon_utils.check(name)[0] and name not in addons:
-            continue
+        if name not in timestamps:
+            timestamps[name] = {'files': {}}
 
-        new_module = False
-        for root, dirs, files in os.walk(os.path.dirname(path)):
-            for file in files:
-                if not file.endswith('.py'):
-                    continue
+        if not timestamps[name]['files']: #XXX: os.walk is slow under windows
+            for root, dirs, files in os.walk(os.path.dirname(path)):
+                for file in files:
+                    if not file.endswith('.py'):
+                        continue
 
-                _path = os.path.join(root, file)
+                    _path = os.path.join(root, file)
 
-                if _path not in timestamps:
-                    timestamps[_path] = os.path.getmtime(_path)
-                    new_module = name in addons
+                    timestamps[name]['files'][_path] = os.path.getmtime(_path)
 
-                if os.path.getmtime(_path) == timestamps[_path] and not new_module:
-                    continue
+        for _path in timestamps[name]['files']: #XXX: cannot retrieve new files
+            if os.path.getmtime(_path) != timestamps[name]['files'][_path]:
+                timestamps[name]['files'][_path] = os.path.getmtime(_path)
+                reload = (addon, _path.split(name)[-1].replace(os.path.sep, '.')[1:-3].rstrip())
+                break
 
-                timestamps[_path] = os.path.getmtime(_path)
-
-                separator = os.path.sep
-                module = F"{root}{separator}{file}".split(name)[-1].replace(separator, '.')[1:-3].rstrip()
-                reload = (addon, module if module else '__main__')
-
-        if name in addons:
-            continue
-
-        addons.append(name)
+        if reload:
+            break
 
     if not reload:
         return 1.0
@@ -72,7 +78,8 @@ def on_change():
     name = init.bl_info['name']
 
     print(F"\nChanges detected in '{name}', reloading...")
-    print(F"  {'Changed' if not new_module else 'New'} module: {reload[1]}")
+    # print(F"  {'Changed' if not new_module else 'New'} module: {reload[1]}")
+    print(F"  Changed module: {reload[1]}")
     time_start = time.perf_counter()
 
     try:
@@ -108,4 +115,3 @@ def register():
 def unregister():
     if bpy.app.timers.is_registered(on_change):
         bpy.app.timers.unregister(on_change)
-
