@@ -61,8 +61,12 @@ def on_change():
                     timestamps[name]['files'][_path] = os.path.getmtime(_path)
 
         for _path in timestamps[name]['files']: #XXX: cannot retrieve new files
+            if not os.path.isfile(_path):
+                continue
+
             if os.path.getmtime(_path) != timestamps[name]['files'][_path]:
-                timestamps[name]['files'][_path] = os.path.getmtime(_path)
+                for _path in timestamps[name]['files']:
+                    timestamps[name]['files'][_path] = os.path.getmtime(_path)
                 reload = (addon, _path.split(name)[-1].replace(os.path.sep, '.')[1:-3].rstrip())
                 break
 
